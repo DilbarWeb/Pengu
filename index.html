@@ -985,10 +985,10 @@
 
             // --- Configuration ---
             const BOT_TOKEN = "8420674857:AAGHTbMwyY5EyVmrq-m1quLi6WrgrpfML0Y";
-            const BOT_USERNAME = "PenguEarn_Bot/play"; // Your bot's username
+            const BOT_USERNAME = "PenguEarn_Bot"; // Your bot's username
             const ADMIN_CHAT_ID = "6385223654";
             const CHANNEL_LINK = "https://t.me/PenguEarnCommunity";
-            const GROUP_LINK = "https://t.me/PenguEarnCommunityChat";
+            const GROUP_LINK = "https://t.me/PenguEarnCommunity";
             const DAILY_AD_LIMIT = 50;
             const POINTS_PER_AD = 0.25;
             const CHANNEL_JOIN_BONUS = 3;
@@ -1090,7 +1090,7 @@
                 dailyAdsWatchedElem.textContent = userState.dailyAdWatchCount;
                 referralCountElem.textContent = userState.referrals.length;
 
-                referralLinkElem.value = `https://t.me/${BOT_USERNAME}?start=ref_${userState.userId}`;
+                referralLinkElem.value = `https://t.me/${BOT_USERNAME}?startapp=${userState.userId}`;
 
                 // Update task button states
                 if (userState.hasJoinedChannel) {
