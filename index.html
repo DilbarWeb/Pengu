@@ -977,6 +977,7 @@
     </div>
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- GigaPub Ad Script -->
     <script src="https://ad.gigapub.tech/script?id=3055"></script>
     
     <script>
@@ -1142,18 +1143,25 @@
                     tg.showAlert("You have reached your daily ad watch limit."); return;
                 }
                 loadingModal.style.display = 'flex';
-                show_3055().then(() => {
-                    userState.points += POINTS_PER_AD;
-                    userState.dailyAdWatchCount++;
-                    saveState();
-                    updateUI();
-                    tg.HapticFeedback.notificationOccurred('success');
-                    tg.showAlert(`Congratulations! You've earned ${POINTS_PER_AD} PENGU.`);
-                }).catch(() => {
-                    tg.showAlert("Ad could not be loaded. Please try again later.");
-                }).finally(() => {
+                
+                // Use GigaPub's show_3055 function instead of show_144
+                if (typeof show_3055 === 'function') {
+                    show_3055().then(() => {
+                        userState.points += POINTS_PER_AD;
+                        userState.dailyAdWatchCount++;
+                        saveState();
+                        updateUI();
+                        tg.HapticFeedback.notificationOccurred('success');
+                        tg.showAlert(`Congratulations! You've earned ${POINTS_PER_AD} PENGU.`);
+                    }).catch(() => {
+                        tg.showAlert("Ad could not be loaded. Please try again later.");
+                    }).finally(() => {
+                        loadingModal.style.display = 'none';
+                    });
+                } else {
+                    tg.showAlert("Ad system is not available. Please try again later.");
                     loadingModal.style.display = 'none';
-                });
+                }
             };
             
             const handleJoinChannel = () => {
